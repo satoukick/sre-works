@@ -1,0 +1,39 @@
+name: sre-practice-local-prometheus-grafana
+services:
+
+  # ─── Prometheus ──────────────────────────────────────────────────────────────
+  # --enable-feature=otlp-write-receiver  enables the OTLP ingest endpoint at
+  #   POST /api/v1/otlp/v1/metrics
+  # --web.enable-remote-write-receiver    enables the Prometheus remote-write
+  #   endpoint (used by the collector's prometheusremotewrite exporter)
+  prometheus:
+    image: prom/prometheus:v3.10.0
+    container_name: prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.console.libraries=/usr/share/prometheus/console_libraries
+      - --web.console.templates=/usr/share/prometheus/consoles
+      - --enable-feature=otlp-write-receiver
+      - --web.enable-remote-write-receiver
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "19090:9090"
+
+  # ─── Grafana ─────────────────────────────────────────────────────────────────
+  grafana:
+    image: grafana/grafana:12.4.1
+    container_name: grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    ports:
+      - "3000:3000"
+    depends_on:
+      prometheus:
+        condition: service_started
