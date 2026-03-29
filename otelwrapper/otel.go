@@ -5,10 +5,10 @@ import (
 	"errors"
 	"time"
 
+	"go.opentelemetry.io/contrib/exporters/autoexport"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
 	"go.opentelemetry.io/otel/exporters/stdout/stdoutlog"
-	"go.opentelemetry.io/otel/exporters/stdout/stdoutmetric"
 	"go.opentelemetry.io/otel/propagation"
 	"go.opentelemetry.io/otel/sdk/log"
 	"go.opentelemetry.io/otel/sdk/metric"
@@ -134,16 +134,19 @@ func newMeterProvider() (*metric.MeterProvider, error) {
 		return nil, err
 	}
 
-	metricExporter, err := stdoutmetric.New(stdoutmetric.WithPrettyPrint())
+	// metricExporter, err := stdoutmetric.New(stdoutmetric.WithPrettyPrint())
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	metricExporter, err := autoexport.NewMetricReader(context.Background())
 	if err != nil {
 		return nil, err
 	}
 
 	meterProvider := metric.NewMeterProvider(
 		metric.WithResource(res),
-		metric.WithReader(metric.NewPeriodicReader(metricExporter,
-			// Default is 1m. Set to 3s for demonstrative purposes.
-			metric.WithInterval(3*time.Second))),
+		metric.WithReader(metricExporter),
 	)
 	return meterProvider, nil
 }

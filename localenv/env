@@ -1,0 +1,8 @@
+{
+    "OTEL_RESOURCE_ATTRIBUTES": "service.name=dice,service.version=0.1.0",
+    "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT": "127.0.0.1:4317",
+    "OTEL_SERVICE_NAME": "dice",
+    "OTEL_EXPORTER_OTLP_TRACES_PROTOCOL": "grpc",
+    "OTEL_EXPORTER_OTLP_METRICS_ENDPOINT": "http://localhost:19090/api/v1/otlp/v1/metrics",
+    "OTEL_EXPORTER_OTLP_METRICS_PROTOCOL": "http/protobuf"
+}
