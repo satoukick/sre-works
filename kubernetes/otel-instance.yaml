@@ -1,0 +1,45 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: simple
+spec:
+  config:
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
+    processors:
+      memory_limiter:
+        check_interval: 1s
+        limit_percentage: 75
+        spike_limit_percentage: 15
+    # TODO, configure jaeger and prometheus
+    exporters:
+      debug:
+        verbosity: basic
+      otlp_grpc/jaeger:
+        endpoint: "jaeger-inmemory-instance-collector:4317"
+        tls:
+          insecure: true
+      otlp_http/prometheus:
+        endpoint: "http://kube-prometheus-stack-prometheus:9090/api/v1/otlp"
+        tls:
+          insecure: true
+
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: [memory_limiter]
+          exporters: [otlp_grpc/jaeger]
+        metrics:
+          receivers: [otlp]
+          processors: [memory_limiter]
+          exporters: [otlp_http/prometheus]
+        # logs:
+        #   receivers: [otlp]
+        #   processors: [memory_limiter]
+        #   exporters: [debug]

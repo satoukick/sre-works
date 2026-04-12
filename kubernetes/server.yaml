@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rolldice
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rolldice
+  template:
+    metadata:
+      labels:
+        app: rolldice
+    spec:
+      containers:
+        - name: rolldice
+          image: sre-practice:v1
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+          env:
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: otel-collector
+                  key: otlp_endpoint
+            - name: OTEL_EXPORTER_OTLP_PROTOCOL
+              valueFrom:
+                configMapKeyRef:
+                  name: otel-collector
+                  key: otlp_protocol
+            - name: "OTEL_RESOURCE_ATTRIBUTES"
+              value: "service.name=dice,service.version=0.1.0"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rolldice-service
+spec:
+  selector:
+    app: rolldice
+  ports:
+    - protocol: TCP
+      port: 3080
+      targetPort: 8080
+  type: LoadBalancer
