@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sre-practice-argo-app
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/satoukick/sre-practice.git"
+    sourcePath: kubernetes/app
+    targetRevision: main
+  destination:
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

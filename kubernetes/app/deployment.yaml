@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sre-practice-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sre-practice-app
+  template:
+    metadata:
+      labels:
+        app: sre-practice-app
+    spec:
+      containers:
+        - name: sre-practice-container
+          image: ghcr.io/satoukick/sre-practice:main
+          ports:
+            - containerPort: 8080
