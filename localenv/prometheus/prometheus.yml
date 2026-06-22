@@ -13,7 +13,7 @@ scrape_configs:
   #   static_configs:
   #     - targets: ["otel-collector:8888"]
 
-  # sre-practice app (if a /metrics endpoint is exposed in the future)
-  # - job_name: sre-practice
+  # sre-works app (if a /metrics endpoint is exposed in the future)
+  # - job_name: sre-works
   #   static_configs:
   #     - targets: ["app:8080"]

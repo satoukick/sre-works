@@ -14,9 +14,9 @@ locals {
   )
 
   vpc_cidr = "10.0.0.0/16"
-  name     = "sre-practice-eks"
+  name     = "sre-works-eks"
 
-    tags = {
+  tags = {
     Environment = "dev"
     Terraform   = "true"
   }
@@ -31,9 +31,9 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "21.15.1"
 
-  name = local.name
-  kubernetes_version = local.kubernetes_version
-  endpoint_public_access = true
+  name                                     = local.name
+  kubernetes_version                       = local.kubernetes_version
+  endpoint_public_access                   = true
   enable_cluster_creator_admin_permissions = true
 
   compute_config = {
@@ -41,7 +41,7 @@ module "eks" {
     node_pools = ["general-purpose"]
   }
 
-  vpc_id = module.vpc.vpc_id
+  vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
 
   tags = local.tags

@@ -1,4 +1,4 @@
-name: sre-practice-local-prometheus-grafana
+name: sre-works-local-prometheus-grafana
 services:
 
   # ─── Prometheus ──────────────────────────────────────────────────────────────

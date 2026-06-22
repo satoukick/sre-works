@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: sre-practice-service
+  name: sre-works-service
 spec:
   selector:
-    app: sre-practice-app
+    app: sre-works-app
   ports:
     - protocol: TCP
       port: 8080

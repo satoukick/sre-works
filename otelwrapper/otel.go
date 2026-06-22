@@ -15,7 +15,7 @@ import (
 	"go.opentelemetry.io/otel/sdk/trace"
 )
 
-const serviceName = "sre-practice"
+const serviceName = "sre-works"
 
 // SetupOTelSDK bootstraps the OpenTelemetry pipeline.
 // If it does not return an error, make sure to call shutdown for proper cleanup.

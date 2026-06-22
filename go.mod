@@ -1,4 +1,4 @@
-module sre-practice
+module sre-works
 
 go 1.26.1
 

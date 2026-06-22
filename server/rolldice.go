@@ -6,7 +6,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
-	"sre-practice/metric"
+	"sre-works/metric"
 
 	"strconv"
 

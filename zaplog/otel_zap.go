@@ -18,7 +18,7 @@ func InitLogger() {
 
 	core := zapcore.NewTee(
 		zapcore.NewCore(zapcore.NewJSONEncoder(zap.NewProductionEncoderConfig()), zapcore.AddSync(os.Stdout), zapcore.InfoLevel),
-		otelzap.NewCore("sre-practice", otelzap.WithLoggerProvider(provider)),
+		otelzap.NewCore("sre-works", otelzap.WithLoggerProvider(provider)),
 	)
 
 	Logger = zap.New(core)

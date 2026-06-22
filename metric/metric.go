@@ -29,7 +29,7 @@ func newAPICounter() {
 }
 
 func newMeter() {
-	meter = otel.Meter("sre-practice/metrics")
+	meter = otel.Meter("sre-works/metrics")
 }
 
 func InitMetric() {
