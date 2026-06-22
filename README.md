@@ -1,6 +1,6 @@
-# sre-practice
+# sre-works
 
-Personal practice project
+Personal SRE Lab project
 
 # TODO
 github action
